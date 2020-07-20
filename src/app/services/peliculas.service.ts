@@ -17,10 +17,11 @@ export class PeliculasService {
     const hasta = new Date();
     hasta.setDate(hasta.getDate() + 7);
 
+    /* Corregir Fechas */
     const desdeStr = `${desde.getFullYear()}-0${desde.getMonth()}-0${desde.getDay()}`;
-    const hastaStr = `${desde.getFullYear()}-0${desde.getMonth()}-0${desde.getDay()}`;
+    const hastaStr = `${hasta.getFullYear()}-0${hasta.getMonth()}-0${hasta.getDay()}`;
 
-    const url = `${this.urlMoviedb}/discover/movie?primary_release_date.gte=${desdeStr}&primary_release_date.lte=${hastaStr}&api_key=${this.apikey}`;
+    const url = `${this.urlMoviedb}/discover/movie?primary_release_date.gte=2014-09-15&primary_release_date.lte=2020-06-01&api_key=${this.apikey}`;
 
     return this.http.get(url).pipe(
       map(
@@ -79,6 +80,23 @@ export class PeliculasService {
           // console.log(res.results);
           this.peliculasHtml = res.results;
           return res.results;
+        },
+        (err) => {
+          // console.log(err);
+          return err;
+        }
+      )
+    );
+  }
+
+  getPelicula(movieId: string) {
+    const url = `${this.urlMoviedb}/movie/${movieId}?api_key=${this.apikey}`;
+
+    return this.http.get(url).pipe(
+      map(
+        (res: any) => {
+          // console.log(res);
+          return res;
         },
         (err) => {
           // console.log(err);
